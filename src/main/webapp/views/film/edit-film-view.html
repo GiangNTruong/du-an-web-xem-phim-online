@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 50px;
+        }
+    </style>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<br/>
+<h1>Sửa thông tin phim</h1>
+<br/>
+<form th:action="@{/film/editFilm}" th:object="${filmModel}" method="post" enctype="multipart/form-data">
+    <!--    Gửi lại Id của film đang sửa-->
+    <input type="hidden" name="filmId" th:value="${filmModel.filmId}">
+
+    <div class="mb-3">
+        <label class="form-label">Tên phim</label>
+        <input type="text" class="form-control" th:field="*{filmName}">
+        <small th:errors="*{filmName}" class="text-danger"></small>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Số tập phim</label>
+        <input type="number" class="form-control" th:field="*{totalEpisode}">
+        <small th:errors="*{totalEpisode}" class="text-danger"></small>
+    </div>
+    <select th:object="${categoryList}" name="categoryId" class="form-select" style="width: 100%">
+        <option selected>Thể loại phim</option>
+        <option th:each="c : ${categoryList}" th:value="${c.categoryId}" th:text="${c.categoryName}"
+                th:if="${c.status}" th:selected="${c.categoryId == filmModel.categoryId}"></option>
+    </select><br/><br/>
+    <small th:errors="*{categoryId}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Đường dẫn trailer</label>
+        <input type="text" class="form-control" th:field="*{trailerUrl}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Đạo diễn phim</label>
+        <input type="text" class="form-control" th:field="*{director}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Mô tả phim</label>
+        <textarea class="form-control" th:field="*{filmDescription}"></textarea>
+    </div>
+    <select name="countryId" class="form-select" style="width: 100%">
+        <option>Quốc gia sản xuất</option>
+        <option th:each="coun : ${countryList}" th:value="${coun.countryId}" th:text="${coun.countryName}"
+                th:selected="${coun.countryId == filmModel.countryId}"></option>
+    </select>
+    <small th:errors="*{countryId}" class="text-danger"></small>
+    <br/><br/>
+    <div class="mb-3">
+        <label class="form-label">Ngôn ngữ trong phim</label>
+        <input type="text" class="form-control" th:field="*{language}">
+    </div>
+    <small th:errors="*{language}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Nam diễn viên chính</label>
+        <input type="text" class="form-control" th:field="*{mainActorName}">
+    </div>
+    <small th:errors="*{mainActorName}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Nữ diễn viên chính</label>
+        <input type="text" class="form-control" th:field="*{mainActressName}">
+    </div>
+    <small th:errors="*{mainActressName}" class="text-danger"></small>
+    <div class="mb-3">
+        <label class="form-label">Ngày khởi chiếu</label>
+        <input type="date" th:field="*{releaseDate}">
+    </div>
+    <small th:errors="*{releaseDate}" class="text-danger"></small>
+    <div class="mb-3">
+        <label for="file" class="form-label">Ảnh minh họa</label>
+        <!--  Truyền hình ảnh vào DTO để ép về String nên phải dùng tên trường của DTO-->
+        <input class="form-control" type="file" id="file" name="fileImage">
+    </div>
+    <small th:errors="*{fileImage}" class="text-danger"></small>
+    <div class="form-check form-check-inline"
+         style="display: flex; flex-direction: row; justify-content: start; gap: 25px">
+        <span class="form-label" style="margin-right: 20px">Phân loại</span>
+        <div>
+            <input class="form-check-input" type="radio" th:field="*{free}" value="true"
+                   style="margin: 0">
+            <label class="form-check-label">Phim miễn phí</label>
+        </div>
+        <div>
+            <input class="form-check-input" type="radio" th:field="*{free}" value="false"
+                   style="margin: 0">
+            <label class="form-check-label">Phim trả phí</label>
+        </div>
+    </div>
+    <small th:errors="*{free}" class="text-danger"></small>
+    <div class="form-check form-check-inline"
+         style="display: flex; flex-direction: row; justify-content: start; gap: 20px">
+        <span class="form-label" style="margin-right: 20px">Trạng thái</span>
+        <div>
+            <input class="form-check-input" type="radio" th:field="*{status}" value="1" style="margin: 0">
+            <label class="form-check-label">Phim đang chiếu</label>
+        </div>
+        <div>
+            <input class="form-check-input" type="radio" th:field="*{status}" value="2" style="margin: 0">
+            <label class="form-check-label">Phim sắp chiếu</label>
+        </div>
+        <div>
+            <input class="form-check-input" type="radio" th:field="*{status}" value="3" style="margin: 0">
+            <label class="form-check-label">Phim đã ngừng chiếu</label>
+        </div>
+    </div>
+    <small th:errors="*{status}" class="text-danger"></small>
+    <button type="submit" class="btn btn-primary">Cập nhật</button>
+</form>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

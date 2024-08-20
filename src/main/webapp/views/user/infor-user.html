@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Thông Tin Cá Nhân</title>
+    <link
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<div class="container mt-5">
+    <a th:href="@{/}">Quay lại trang chủ</a>
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Thông Tin Cá Nhân</h1>
+        </div>
+        <div class="row mt-4">
+            <div class="col text-center">
+                <a th:href="@{/user/edit}" class="btn btn-primary">Cập nhật thông tin</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center mb-4">
+                    <img
+                            th:src="${user.avatar}"
+                            alt="Avatar"
+                            class="img-fluid rounded-circle"
+                    />
+                </div>
+                <div class="col-md-8">
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">User ID:</div>
+                        <div class="col-sm-8" id="userId" th:text="${user.userId}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Tên đăng nhập:</div>
+                        <div class="col-sm-8" id="userName" th:text="${user.username}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Email:</div>
+                        <div class="col-sm-8" id="email" th:text="${user.email}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Số điện thoại:</div>
+                        <div class="col-sm-8" id="phone" th:text="${user.phone}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Vai trò:</div>
+                        <div class="col-sm-8" id="userRole" th:text="${user.userRole}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Họ tên:</div>
+
+                        <div class="col-sm-8" id="fullName" th:text="${user.fullname}"></div>
+
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Số dư ví:</div>
+                        <div class="col-sm-8" id="wallet_balance" th:text="${user.wallet_balance}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Trạng thái:</div>
+                        <div class="col-sm-8" id="status" th:text="${user.status?'Hoạt động':'Khóa'}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Ngày tạo:</div>
+                        <div class="col-sm-8" id="createdAt" th:text="${user.createdAt}"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-4 font-weight-bold">Ngày cập nhật:</div>
+                        <div class="col-sm-8" id="updatedAt" th:text="${user.updatedAt}"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

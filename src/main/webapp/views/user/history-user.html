@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Lịch Sử Xem Phim</title>
+    <link
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        .movie-card {
+            margin-bottom: 20px;
+        }
+
+        .movie-image {
+            max-width: 300px;
+            height: 200px;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
+            border: 5px;
+        }
+    </style>
+</head>
+<body>
+<a th:href="@{/}">Quay lại trang chủ</a>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Lịch Sử Xem Phim</h1>
+    <div class="row">
+        <div class="col-md-6" th:each="movie : ${filmEpisodes}">
+            <div class="movie-card card">
+                <img
+                        th:src="${movie.film.filmImage}"
+                        class="card-img-top movie-image"
+                        alt="Hình ảnh phim "
+                />
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${movie.film.filmName}"></h5>
+                    <p class="card-text" th:text="${movie.film.filmCategory.categoryName}"></p>
+                    <p class="card-text" th:text="${movie.film.seriesSingle?'Phim dài tập' : 'Phim ngắn'}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

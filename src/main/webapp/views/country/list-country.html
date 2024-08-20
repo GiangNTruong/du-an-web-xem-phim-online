@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Trang Quản Lý Quốc Gia</title>
+    <link
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding: 20px;
+            display: flex;
+        }
+
+        .sidebar {
+            min-width: 200px;
+            max-width: 200px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background-color: #e9ecef;
+            color: #000;
+        }
+
+        .main-content {
+            margin-left: 220px;
+            width: calc(100% - 220px);
+        }
+
+        .table thead th {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+
+        th, td {
+            text-align: center;
+        }
+
+        .page-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="main-content">
+    <a class="btn btn-success" th:href="@{/admin/dashboard}">
+        <i class="fe-airplay"></i>
+        <button type="button" class="btn btn-success">Dashboard</button>
+    </a>
+    <h1 class="mb-4">Trang Quản Lý Quốc Gia</h1>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCountryModal">
+        Thêm Quốc Gia Mới
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addCountryModal" tabindex="-1" aria-labelledby="addCountryModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCountryModalLabel">Thêm Quốc Gia Mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container">
+                        <h2 class="mb-3">Thêm Quốc Gia Mới</h2>
+                        <form th:action="@{/admin/country/add}" method="post" th:object="${countryAdd}">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="countryName">Tên Quốc Gia</label>
+                                    <input
+                                            type="text"
+                                            class="form-control"
+                                            id="countryName"
+                                            th:field="*{countryName}"
+                                            placeholder="Tên Quốc Gia"
+                                    />
+                                    <div th:if="${#fields.hasErrors('countryName')}" class="alert alert-danger"
+                                         th:errors="*{countryName}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <button type="submit" class="btn btn-primary">Thêm Quốc Gia</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-container" style="margin-top: 20px">
+        <form th:action="@{/admin/country}" method="get">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="searchName"
+                            name="name"
+                            placeholder="Tìm kiếm tên Quốc Gia"
+                    />
+                </div>
+                <div class="form-group col-md-2 align-self-end">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <h2 class="mb-3">Danh Sách Quốc Gia</h2>
+    <div class="form-container" th:if="${directionCheck}">
+        <a th:href="@{'/admin/country?order=id&direction=asc&page=' + ${curr}}">
+            <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
+        </a>
+        <a th:href="@{'/admin/country?order=name&direction=asc&page=' +${curr}}">
+            <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
+        </a>
+        <a th:href="@{'/admin/country?order=film&direction=asc&page=' +${curr}}">
+            <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
+        </a>
+    </div>
+    <div class="form-container" th:if="${!directionCheck}">
+        <a th:href="@{'/admin/country?order=id&direction=desc&page=' +${curr}}">
+            <button class="btn btn-primary mr-2">Sắp xếp theo ID</button>
+        </a>
+        <a th:href="@{'/admin/country?order=name&direction=desc&page=' +${curr}}">
+            <button class="btn btn-primary">Sắp xếp theo Tên Quốc Gia</button>
+        </a>
+        <a th:href="@{'/admin/country?order=film&direction=desc&page=' +${curr}}">
+            <button class="btn btn-primary">Sắp xếp theo Số lượng phim</button>
+        </a>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên Quốc Gia</th>
+            <th>Số luợng phim</th>
+            <th colspan="2">Hành Động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="country : ${countries}">
+            <td th:text="${country.countryId}"></td>
+            <td th:text="${country.countryName}"></td>
+            <td th:text="${country.filmList.size()}"></td>
+            <td><a th:href="@{/admin/country/initedit/{id}(id=${country.countryId})}">
+                <button type="button" class="btn btn-warning">Sửa</button>
+            </a></td>
+            <td><a th:href="@{/admin/country/delete/{id}(id=${country.countryId})}">
+                <button type="button" class="btn btn-danger"
+                        onclick="return confirm('Bạn có muốn xóa quốc gia này không')">Xoá
+                </button>
+            </a></td>
+        </tr>
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pagination">
+            <li th:each="page : ${#numbers.sequence(1,totalPage)}" class="page-item">
+                <a th:href="@{'/admin/country?page='+${page}}" th:text="${page}"
+                   th:classappend="${page == curr} ? ' active' : ''" class="page-link">1</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

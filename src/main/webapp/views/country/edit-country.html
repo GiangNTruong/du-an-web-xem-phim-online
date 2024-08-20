@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Chỉnh sửa tên quốc gia</h2>
+    <form th:action="@{/admin/country/edit}" th:object="${country}" method="post">
+        <div class="form-group">
+            <label for="countryName">Tên quốc gia</label>
+            <input type="text" class="form-control" id="countryName" th:field="*{countryName}" placeholder="Nhập tên quốc gia">
+        </div>
+        <input hidden type="text" class="form-control"  th:field="*{countryId}" >
+        <button type="submit" class="btn btn-primary">Thay đổi</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
